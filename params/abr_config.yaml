@@ -1,0 +1,14 @@
+abr_publisher:
+  codec: "libx264"
+  bitrate: 800000
+  fps: 30
+  preset: "ultrafast"
+
+abr_subscriber:
+  window_size: 40
+  fps_variance_threshold: 0.8
+  min_bitrate_safe : 10000
+  max_bitrate_safe : 2000000
+  increase_factor: 1.5
+  decrease_factor: 0.7
+  use_buffer: false
