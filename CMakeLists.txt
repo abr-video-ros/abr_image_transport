@@ -28,14 +28,23 @@ find_package(yaml-cpp REQUIRED)
 pkg_check_modules(AVCODEC REQUIRED libavcodec)
 pkg_check_modules(AVUTIL REQUIRED libavutil)
 pkg_check_modules(SWSCALE REQUIRED libswscale)
-pkg_check_modules(VAAPI REQUIRED libva)
+
+# ===== Check for VA-API HW acceleration (optional) =====
+pkg_check_modules(VAAPI QUIET libva)
+if(VAAPI_FOUND)
+  message(STATUS "VA-API found: hardware acceleration enabled")
+  include_directories(${VAAPI_INCLUDE_DIRS})
+  set(EXTRA_LIBS ${VAAPI_LIBRARIES})
+else()
+  message(WARNING "VA-API not found: falling back to software encoding/decoding")
+  set(EXTRA_LIBS "")
+endif()
 
 include_directories(include 
   ${OpenCV_INCLUDE_DIRS}
   ${AVCODEC_INCLUDE_DIRS}
   ${AVUTIL_INCLUDE_DIRS}
   ${SWSCALE_INCLUDE_DIRS}
-  ${VAAPI_INCLUDE_DIRS}
 )
 
 set(LIBRARY_NAME ${PROJECT_NAME}_component)
@@ -71,7 +80,7 @@ PUBLIC
   ${AVCODEC_LIBRARIES}
   ${AVUTIL_LIBRARIES}
   ${SWSCALE_LIBRARIES}
-  ${VAAPI_LIBRARIES}
+  ${EXTRA_LIBS}
   yaml-cpp
 )
 

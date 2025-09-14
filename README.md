@@ -20,3 +20,5 @@ The plugin integrates seamlessly with the ROS 2 `image_transport` framework, sup
 - Compatible with the ROS 2 `image_transport` plugin system  
 - Configurable parameters for quality, target bitrate, and latency  
 - Efficient handling of compressed frames (using AVPacket-like structures)  
+
+Note: This package is prepared for hardware acceleration, with the necessary dependencies (e.g., VA-API) available, but currently runs only on CPU. To enable VA-API on Ubuntu, run: `sudo apt install libva-dev`
